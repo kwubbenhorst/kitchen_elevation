@@ -20,6 +20,7 @@ var allMenuItems = JSON.parse(localStorage.getItem("menuitems"));
 var allRecipeDetails = JSON.parse(localStorage.getItem("recipeinfo"));
 var allReturnedRecipes = JSON.parse(localStorage.getItem("recipes"));
 var ingredientOrDishName = localStorage.getItem('ingredientOrDishName');
+//var recipeCardContainer = document.querySelector('.recipe-card-container');
 
 function renderRecipeCard (recipeObject) {
   selectedRecipe = allReturnedRecipes.find(function (recipe) {
@@ -145,7 +146,7 @@ function renderRecipeDetails(allRecipeDetails) {
         // Capture the recipe id
         var recipeId = getButton.dataset.recipeId;
         getButton.dataset.recipeId = recipeDetail.id;
-       
+                    //var recipeId;
         // Add click listener to the "Get" button
         getButton.addEventListener('click', function() {
         // Access the recipe id using the dataset property
@@ -175,10 +176,18 @@ function renderRecipeDetails(allRecipeDetails) {
     accordionHeaderEl.querySelector('button').textContent = '';
     accordionBodyEl.innerHTML = '';
 
+    // Set button visibility to hidden
+    //accordionBodyEl.querySelector('.get').style.visibility = 'hidden';
   }
 })();
 }
-       console.log("Recipe details rendered successfully");  
+
+    // Resolve the promise with the recipeId
+    //resolve(recipeId);
+ 
+       console.log("Recipe details rendered successfully");
+    //}, 100);    
+  //});
 }
 
 function renderMenuItems(allMenuItems) {
@@ -231,6 +240,7 @@ function renderMenuItems(allMenuItems) {
 
   console.log("Menu items rendered successfully");
 }
+
 
 renderMenuItems(allMenuItems);
 renderRecipeDetails(allRecipeDetails);
