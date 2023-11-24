@@ -11,11 +11,15 @@ var accordionHeaderEls = document.querySelectorAll(".accordion-header");
 var accordionBodyEls = document.querySelectorAll('.accordion-body');
 var accordionBodyEl;
 var accordionHeaderEl;
+var listGroupDishNameEls = document.querySelectorAll(".dish-name");
+var listGroupRestaurantNameEls = document.querySelectorAll(".restaurant-name");
+var listGroupDishNameEl;
+var listGroupRestaurantNameEl;
 var selectedRecipe;
+var allMenuItems = JSON.parse(localStorage.getItem("menuitems"));
 var allRecipeDetails = JSON.parse(localStorage.getItem("recipeinfo"));
 var allReturnedRecipes = JSON.parse(localStorage.getItem("recipes"));
 var ingredientOrDishName = localStorage.getItem('ingredientOrDishName');
-//var recipeCardContainer = document.querySelector('.recipe-card-container');
 
 function renderRecipeCard (recipeObject) {
   selectedRecipe = allReturnedRecipes.find(function (recipe) {
@@ -141,7 +145,7 @@ function renderRecipeDetails(allRecipeDetails) {
         // Capture the recipe id
         var recipeId = getButton.dataset.recipeId;
         getButton.dataset.recipeId = recipeDetail.id;
-                    //var recipeId;
+       
         // Add click listener to the "Get" button
         getButton.addEventListener('click', function() {
         // Access the recipe id using the dataset property
@@ -171,23 +175,65 @@ function renderRecipeDetails(allRecipeDetails) {
     accordionHeaderEl.querySelector('button').textContent = '';
     accordionBodyEl.innerHTML = '';
 
-    // Set button visibility to hidden
-    //accordionBodyEl.querySelector('.get').style.visibility = 'hidden';
   }
 })();
 }
-
-    // Resolve the promise with the recipeId
-    //resolve(recipeId);
- 
-       console.log("Recipe details rendered successfully");
-    //}, 100);    
-  //});
+       console.log("Recipe details rendered successfully");  
 }
 
+function renderMenuItems(allMenuItems) {
+  console.log("Rendering menu items");
+  console.log(allMenuItems);
+
+  // Iterate through each list group section, up to a maximum of 10
+  var minItems = Math.min(10, allMenuItems.length);
+
+  for (var i = 0; i < 10; i++) {
+    var menuItem = allMenuItems[i];
+
+    listGroupDishNameEl = listGroupDishNameEls[i];
+    listGroupRestaurantNameEl = listGroupRestaurantNameEls[i];
+
+    // Add some console.log statements to check the values
+    console.log("listGroupDishNameEl:", listGroupDishNameEl);
+    console.log("listGroupRestaurantNameEl:", listGroupRestaurantNameEl);
+
+    // Check if there is a corresponding menuItem
+    if (i < allMenuItems.length) {
+      // Get the unique IDs for the current index
+      var dishNameId = 'dish-name-' + (i + 1);
+      var restaurantNameId = 'restaurant-name-' + (i + 1);
+
+      // Select elements using getElementById
+      var dishNameElement = document.getElementById(dishNameId);
+      var restaurantNameElement = document.getElementById(restaurantNameId);
+
+      // Check if the elements exist
+      if (dishNameElement && restaurantNameElement) {
+        // Populate list group with the title and restaurantChain
+        dishNameElement.textContent = menuItem.title;
+        restaurantNameElement.textContent = menuItem.restaurant;
+      } else {
+        console.error('Elements not found for IDs:', dishNameId, restaurantNameId);
+      }
+    } else {
+      // If there's no corresponding menuItem, hide the entire list group section
+      var listGroupSection = document.getElementById('list-group-section-' + (i + 1));
+
+      // Check if the element exists
+      if (listGroupSection) {
+        listGroupSection.style.display = 'none';
+      } else {
+        console.error('Element not found for ID:', 'list-group-section-' + (i + 1));
+      }
+    }
+  }
+
+  console.log("Menu items rendered successfully");
+}
+
+renderMenuItems(allMenuItems);
 renderRecipeDetails(allRecipeDetails);
-
-
 
 //HELPER FUNCTION FOR FUNCTION HANDLEFAVOURITING AND OTHERS  
 
